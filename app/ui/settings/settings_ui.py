@@ -20,8 +20,9 @@ from ..dayu_widgets.collapse import MCollapse
 
 
 current_file_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.abspath(os.path.join(current_file_dir, '..', '..', '..'))
-font_folder_path = os.path.join(project_root, 'fonts')
+project_root = os.path.abspath(os.path.join(current_file_dir, "..", "..", ".."))
+font_folder_path = os.path.join(project_root, "fonts")
+
 
 class SettingsPageUI(QtWidgets.QWidget):
     def __init__(self, parent=None):
@@ -30,26 +31,65 @@ class SettingsPageUI(QtWidgets.QWidget):
         self.credential_widgets = {}
         self.export_widgets = {}
 
-        self.inpainters = ['LaMa', 'AOT', 'MI-GAN']
-        self.detectors = ['RT-DETR-v2']
-        self.ocr_engines = [self.tr("Default"), self.tr('Microsoft OCR'), self.tr('Google Cloud Vision'), self.tr('Gemini-2.0-Flash'), self.tr('GPT-4.1-mini')]
-        self.inpaint_strategy = [self.tr('Resize'), self.tr('Original'), self.tr('Crop')]
-        self.themes = [self.tr('Dark'), self.tr('Light')]
+        self.inpainters = ["LaMa", "AOT", "MI-GAN"]
+        self.detectors = ["RT-DETR-v2"]
+        self.ocr_engines = [
+            self.tr("Default"),
+            self.tr("Microsoft OCR"),
+            self.tr("Google Cloud Vision"),
+            self.tr("Gemini-2.0-Flash"),
+            self.tr("GPT-4.1-mini"),
+        ]
+        self.inpaint_strategy = [
+            self.tr("Resize"),
+            self.tr("Original"),
+            self.tr("Crop"),
+        ]
+        self.themes = [self.tr("Dark"), self.tr("Light")]
         self.alignment = [self.tr("Left"), self.tr("Center"), self.tr("Right")]
 
-        self.credential_services = [self.tr("Custom"), self.tr("Deepseek"), self.tr("Open AI GPT"), self.tr("Microsoft Azure"), self.tr("Google Cloud"), 
-                                    self.tr("Google Gemini"), self.tr("DeepL"), self.tr("Anthropic Claude"), self.tr("Yandex")]
-        
-        self.supported_translators = [self.tr("GPT-4.1"), self.tr("GPT-4.1-mini"), self.tr("DeepL"), 
-                                    self.tr("Claude-3.7-Sonnet"), self.tr("Claude-3.5-Haiku"),
-                                    self.tr("Gemini-2.5-Flash"), self.tr("Yandex"), self.tr("Google Translate"),
-                                    self.tr("Microsoft Translator"), self.tr("Deepseek-v3"), self.tr("Custom"),]
-        
-        self.languages = ['English', '한국어', 'Français', '日本語', 
-         '简体中文', '繁體中文', 'русский', 'Deutsch', 
-         'Nederlands', 'Español', 'Italiano', 'Türkçe']
-        
-        self.nav_cards = []  
+        self.credential_services = [
+            self.tr("Custom"),
+            self.tr("Deepseek"),
+            self.tr("Open AI GPT"),
+            self.tr("Microsoft Azure"),
+            self.tr("Google Cloud"),
+            self.tr("Google Gemini"),
+            self.tr("DeepL"),
+            self.tr("Anthropic Claude"),
+            self.tr("Yandex"),
+        ]
+
+        self.supported_translators = [
+            self.tr("GPT-4.1"),
+            self.tr("GPT-4.1-mini"),
+            self.tr("DeepL"),
+            self.tr("Claude-3.7-Sonnet"),
+            self.tr("Claude-3.5-Haiku"),
+            self.tr("Gemini-2.5-Flash"),
+            self.tr("Yandex"),
+            self.tr("Google Translate"),
+            self.tr("Microsoft Translator"),
+            self.tr("Deepseek-v3"),
+            self.tr("Custom"),
+        ]
+
+        self.languages = [
+            "English",
+            "한국어",
+            "Français",
+            "日本語",
+            "简体中文",
+            "繁體中文",
+            "русский",
+            "Deutsch",
+            "Nederlands",
+            "Español",
+            "Italiano",
+            "Türkçe",
+        ]
+
+        self.nav_cards = []
         self.current_highlighted_nav = None
 
         self.value_mappings = {
@@ -66,11 +106,9 @@ class SettingsPageUI(QtWidgets.QWidget):
             "Español": "Español",
             "Italiano": "Italiano",
             "Türkçe": "Türkçe",
-
             # Theme mappings
             self.tr("Dark"): "Dark",
             self.tr("Light"): "Light",
-
             # Translator mappings
             self.tr("Custom"): "Custom",
             self.tr("Deepseek-v3"): "Deepseek-v3",
@@ -84,30 +122,24 @@ class SettingsPageUI(QtWidgets.QWidget):
             self.tr("Yandex"): "Yandex",
             self.tr("Google Translate"): "Google Translate",
             self.tr("Microsoft Translator"): "Microsoft Translator",
-
             # OCR mappings
             self.tr("Default"): "Default",
             self.tr("Microsoft OCR"): "Microsoft OCR",
             self.tr("Google Cloud Vision"): "Google Cloud Vision",
-
             # Inpainter mappings
             "LaMa": "LaMa",
             "MI-GAN": "MI-GAN",
             "AOT": "AOT",
-
             # Detector mappings
             "RT-DETR-v2": "RT-DETR-v2",
-
             # HD Strategy mappings
             self.tr("Resize"): "Resize",
             self.tr("Original"): "Original",
             self.tr("Crop"): "Crop",
-
             # Alignment mappings
             self.tr("Left"): "Left",
             self.tr("Center"): "Center",
             self.tr("Right"): "Right",
-
             # Credential services mappings
             self.tr("Custom"): "Custom",
             self.tr("Deepseek"): "Deepseek",
@@ -185,21 +217,25 @@ class SettingsPageUI(QtWidgets.QWidget):
         combo_widget.setLayout(combo_layout)
 
         return combo_widget, combo
-    
+
     def _create_navbar(self):
         navbar_layout = QtWidgets.QVBoxLayout()
 
-        for index, setting in enumerate([
-            {"title": self.tr("Personalization"), "avatar": MPixmap(".svg")},
-            {"title": self.tr("Tools"), "avatar": MPixmap(".svg")},
-            {"title": self.tr("Credentials"), "avatar": MPixmap(".svg")},
-            {"title": self.tr("LLMs"), "avatar": MPixmap(".svg")},
-            {"title": self.tr("Text Rendering"), "avatar": MPixmap(".svg")},
-            {"title": self.tr("Export"), "avatar": MPixmap(".svg")},
-        ]):
+        for index, setting in enumerate(
+            [
+                {"title": self.tr("Personalization"), "avatar": MPixmap(".svg")},
+                {"title": self.tr("Tools"), "avatar": MPixmap(".svg")},
+                {"title": self.tr("Credentials"), "avatar": MPixmap(".svg")},
+                {"title": self.tr("LLMs"), "avatar": MPixmap(".svg")},
+                {"title": self.tr("Text Rendering"), "avatar": MPixmap(".svg")},
+                {"title": self.tr("Export"), "avatar": MPixmap(".svg")},
+            ]
+        ):
             nav_card = ClickMeta(extra=False)
             nav_card.setup_data(setting)
-            nav_card.clicked.connect(lambda i=index, c=nav_card: self.on_nav_clicked(i, c))
+            nav_card.clicked.connect(
+                lambda i=index, c=nav_card: self.on_nav_clicked(i, c)
+            )
             navbar_layout.addWidget(nav_card)
             self.nav_cards.append(nav_card)
 
@@ -222,13 +258,17 @@ class SettingsPageUI(QtWidgets.QWidget):
 
         personalization_layout = QtWidgets.QVBoxLayout()
 
-        language_widget, self.lang_combo = self._create_title_and_combo(self.tr("Language"), self.languages)
+        language_widget, self.lang_combo = self._create_title_and_combo(
+            self.tr("Language"), self.languages
+        )
         self.set_combo_box_width(self.lang_combo, self.languages)
-        theme_widget, self.theme_combo = self._create_title_and_combo(self.tr("Theme"), self.themes)
+        theme_widget, self.theme_combo = self._create_title_and_combo(
+            self.tr("Theme"), self.themes
+        )
         self.set_combo_box_width(self.theme_combo, self.themes)
 
-        personalization_layout.addWidget(language_widget) 
-        personalization_layout.addWidget(theme_widget) 
+        personalization_layout.addWidget(language_widget)
+        personalization_layout.addWidget(theme_widget)
         personalization_layout.addStretch()
 
         return personalization_layout
@@ -236,20 +276,30 @@ class SettingsPageUI(QtWidgets.QWidget):
     def _create_tools_layout(self):
         tools_layout = QtWidgets.QVBoxLayout()
 
-        translator_widget, self.translator_combo = self._create_title_and_combo(self.tr("Translator"), self.supported_translators)
+        translator_widget, self.translator_combo = self._create_title_and_combo(
+            self.tr("Translator"), self.supported_translators
+        )
         self.set_combo_box_width(self.translator_combo, self.supported_translators)
 
-        ocr_widget, self.ocr_combo = self._create_title_and_combo(self.tr("OCR"), self.ocr_engines)
+        ocr_widget, self.ocr_combo = self._create_title_and_combo(
+            self.tr("OCR"), self.ocr_engines
+        )
         self.set_combo_box_width(self.ocr_combo, self.ocr_engines)
 
-        detector_widget, self.detector_combo = self._create_title_and_combo(self.tr("Text Detector"), self.detectors)
+        detector_widget, self.detector_combo = self._create_title_and_combo(
+            self.tr("Text Detector"), self.detectors
+        )
         self.set_combo_box_width(self.detector_combo, self.detectors)
 
-        inpainting_label = MLabel(self.tr("Inpainting")).h4() 
-        inpainter_widget, self.inpainter_combo = self._create_title_and_combo(self.tr("Inpainter"), self.inpainters)
+        inpainting_label = MLabel(self.tr("Inpainting")).h4()
+        inpainter_widget, self.inpainter_combo = self._create_title_and_combo(
+            self.tr("Inpainter"), self.inpainters
+        )
         self.set_combo_box_width(self.inpainter_combo, self.inpainters)
 
-        inpaint_strategy_widget, self.inpaint_strategy_combo = self._create_title_and_combo(self.tr("HD Strategy"), self.inpaint_strategy)
+        inpaint_strategy_widget, self.inpaint_strategy_combo = (
+            self._create_title_and_combo(self.tr("HD Strategy"), self.inpaint_strategy)
+        )
         self.set_combo_box_width(self.inpaint_strategy_combo, self.inpaint_strategy)
 
         # Set "Resize" as the default strategy
@@ -265,7 +315,11 @@ class SettingsPageUI(QtWidgets.QWidget):
         about_resize_layout = QtWidgets.QVBoxLayout(self.resize_widget)
         resize_layout = QtWidgets.QHBoxLayout()
         resize_label = MLabel(self.tr("Resize Limit:"))
-        about_resize_label = MLabel(self.tr("Resize the longer side of the image to a specific size,\nthen do inpainting on the resized image."))
+        about_resize_label = MLabel(
+            self.tr(
+                "Resize the longer side of the image to a specific size,\nthen do inpainting on the resized image."
+            )
+        )
         self.resize_spinbox = MSpinBox().small()
         self.resize_spinbox.setFixedWidth(70)
         self.resize_spinbox.setMaximum(3000)
@@ -282,7 +336,9 @@ class SettingsPageUI(QtWidgets.QWidget):
         self.crop_widget = QtWidgets.QWidget()
 
         crop_layout = QtWidgets.QVBoxLayout(self.crop_widget)
-        about_crop_label = MLabel(self.tr("Crop masking area from the original image to do inpainting."))
+        about_crop_label = MLabel(
+            self.tr("Crop masking area from the original image to do inpainting.")
+        )
         crop_margin_layout = QtWidgets.QHBoxLayout()
         crop_margin_label = MLabel(self.tr("Crop Margin:"))
         self.crop_margin_spinbox = MSpinBox().small()
@@ -317,7 +373,9 @@ class SettingsPageUI(QtWidgets.QWidget):
         self.crop_widget.hide()
 
         # Connect the strategy combo box to update the visible widgets
-        self.inpaint_strategy_combo.currentIndexChanged.connect(self.update_hd_strategy_widgets)
+        self.inpaint_strategy_combo.currentIndexChanged.connect(
+            self.update_hd_strategy_widgets
+        )
 
         # Add "Use GPU" checkbox
         self.use_gpu_checkbox = MCheckBox(self.tr("Use GPU"))
@@ -351,12 +409,12 @@ class SettingsPageUI(QtWidgets.QWidget):
 
         for service in self.credential_services:
             service_layout = QtWidgets.QVBoxLayout()
-            
+
             # Service name
             service_label = MLabel(service).strong()
             service_label.setAlignment(QtCore.Qt.AlignmentFlag.AlignLeft)
             service_layout.addWidget(service_label)
-            
+
             if service == "Microsoft Azure":
                 # OCR subheading
                 ocr_label = MLabel(self.tr("OCR")).secondary()
@@ -371,9 +429,11 @@ class SettingsPageUI(QtWidgets.QWidget):
                 ocr_api_key_prefix.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 ocr_api_key_input.set_prefix_widget(ocr_api_key_prefix)
                 service_layout.addWidget(ocr_api_key_input)
-                
-                self.credential_widgets["Microsoft Azure_api_key_ocr"] = ocr_api_key_input
-                
+
+                self.credential_widgets["Microsoft Azure_api_key_ocr"] = (
+                    ocr_api_key_input
+                )
+
                 # Endpoint URL
                 endpoint_input = MLineEdit()
                 endpoint_input.setFixedWidth(400)
@@ -382,7 +442,7 @@ class SettingsPageUI(QtWidgets.QWidget):
                 endpoint_prefix.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 endpoint_input.set_prefix_widget(endpoint_prefix)
                 service_layout.addWidget(endpoint_input)
-                
+
                 self.credential_widgets["Microsoft Azure_endpoint"] = endpoint_input
 
                 # Translate subheading
@@ -395,11 +455,15 @@ class SettingsPageUI(QtWidgets.QWidget):
                 translator_api_key_input.setFixedWidth(400)
                 translator_api_key_prefix = MLabel(self.tr("API Key")).border()
                 self.set_label_width(translator_api_key_prefix)
-                translator_api_key_prefix.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                translator_api_key_prefix.setAlignment(
+                    QtCore.Qt.AlignmentFlag.AlignCenter
+                )
                 translator_api_key_input.set_prefix_widget(translator_api_key_prefix)
                 service_layout.addWidget(translator_api_key_input)
-                
-                self.credential_widgets["Microsoft Azure_api_key_translator"] = translator_api_key_input
+
+                self.credential_widgets["Microsoft Azure_api_key_translator"] = (
+                    translator_api_key_input
+                )
 
                 # Region
                 region_input = MLineEdit()
@@ -409,7 +473,7 @@ class SettingsPageUI(QtWidgets.QWidget):
                 region_prefix.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 region_input.set_prefix_widget(region_prefix)
                 service_layout.addWidget(region_input)
-                
+
                 self.credential_widgets["Microsoft Azure_region"] = region_input
 
             elif service == "Custom":
@@ -422,9 +486,9 @@ class SettingsPageUI(QtWidgets.QWidget):
                 api_key_prefix.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 api_key_input.set_prefix_widget(api_key_prefix)
                 service_layout.addWidget(api_key_input)
-                
+
                 self.credential_widgets[f"{service}_api_key"] = api_key_input
-                
+
                 # Endpoint URL
                 endpoint_input = MLineEdit()
                 endpoint_input.setFixedWidth(400)
@@ -433,7 +497,7 @@ class SettingsPageUI(QtWidgets.QWidget):
                 endpoint_prefix.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 endpoint_input.set_prefix_widget(endpoint_prefix)
                 service_layout.addWidget(endpoint_input)
-                
+
                 self.credential_widgets[f"{service}_api_url"] = endpoint_input
 
                 # Model Name
@@ -444,7 +508,7 @@ class SettingsPageUI(QtWidgets.QWidget):
                 model_prefix.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 model_input.set_prefix_widget(model_prefix)
                 service_layout.addWidget(model_input)
-                
+
                 self.credential_widgets[f"{service}_model"] = model_input
 
             elif service == "Yandex":
@@ -457,9 +521,9 @@ class SettingsPageUI(QtWidgets.QWidget):
                 api_key_prefix.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 api_key_input.set_prefix_widget(api_key_prefix)
                 service_layout.addWidget(api_key_input)
-                
+
                 self.credential_widgets[f"{service}_api_key"] = api_key_input
-                
+
                 # Folder ID
                 folder_id_input = MLineEdit()
                 folder_id_input.setFixedWidth(400)
@@ -468,9 +532,9 @@ class SettingsPageUI(QtWidgets.QWidget):
                 folder_id_prefix.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 folder_id_input.set_prefix_widget(folder_id_prefix)
                 service_layout.addWidget(folder_id_input)
-                
+
                 self.credential_widgets[f"{service}_folder_id"] = folder_id_input
-                
+
             else:
                 # API Key for other services
                 api_key_input = MLineEdit()
@@ -481,12 +545,13 @@ class SettingsPageUI(QtWidgets.QWidget):
                 api_key_prefix.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 api_key_input.set_prefix_widget(api_key_prefix)
                 service_layout.addWidget(api_key_input)
-                
+
                 self.credential_widgets[f"{service}_api_key"] = api_key_input
 
             credentials_layout.addLayout(service_layout)
-            credentials_layout.addSpacing(20)  # Add 20 pixels of vertical spacing between services
-
+            credentials_layout.addSpacing(
+                20
+            )  # Add 20 pixels of vertical spacing between services
 
         credentials_layout.addStretch(1)  # Push everything to the top
 
@@ -505,13 +570,15 @@ class SettingsPageUI(QtWidgets.QWidget):
 
     def _create_llms_layout(self):
         llms_layout = QtWidgets.QVBoxLayout()
-        
+
         # Main horizontal layout to position the text edit and controls side by side
         main_layout = QtWidgets.QHBoxLayout()
 
-        self.image_checkbox = MCheckBox(self.tr("Provide Image as input to multimodal LLMs"))
+        self.image_checkbox = MCheckBox(
+            self.tr("Provide Image as input to multimodal LLMs")
+        )
         self.image_checkbox.setChecked(False)
-        
+
         # Left side - Text edit area
         left_layout = QtWidgets.QVBoxLayout()
         prompt_label = MLabel(self.tr("Extra Context:"))
@@ -521,87 +588,87 @@ class SettingsPageUI(QtWidgets.QWidget):
         left_layout.addWidget(self.extra_context)
         left_layout.addWidget(self.image_checkbox)
         left_layout.addStretch(1)
-        
+
         # Right side - Controls
         right_layout = QtWidgets.QVBoxLayout()
-        
+
         # Temperature control - keep this in the main UI
         temp_layout = QtWidgets.QVBoxLayout()
         temp_header = MLabel(self.tr("Temperature")).h4()
         temp_controls = QtWidgets.QHBoxLayout()
-        
+
         self.temp_slider = MSlider(QtCore.Qt.Horizontal)
         self.temp_slider.setRange(0, 200)  # 0-2 with 100x multiplier for precision
         self.temp_slider.setValue(100)  # Default to 1
         self.temp_slider.disable_show_text()
-        
+
         self.temp_edit = MLineEdit().small()
         self.temp_edit.setFixedWidth(50)
         temp_validator = QDoubleValidator(0.0, 2.0, 2)  # two decimals
         self.temp_edit.setValidator(temp_validator)
         self.temp_edit.setText("1")
-        
+
         temp_controls.addWidget(self.temp_slider)
         temp_controls.addWidget(self.temp_edit)
-        
+
         temp_layout.addWidget(temp_header)
         temp_layout.addLayout(temp_controls)
-        
+
         # Create advanced settings widgets for the collapsible section
         advanced_widget = QtWidgets.QWidget()
         advanced_layout = QtWidgets.QVBoxLayout(advanced_widget)
         advanced_layout.setContentsMargins(0, 5, 0, 5)
-        
+
         # Top P control - for advanced settings
         top_p_layout = QtWidgets.QVBoxLayout()
         top_p_header = MLabel(self.tr("Top P")).h4()
         top_p_controls = QtWidgets.QHBoxLayout()
-        
+
         self.top_p_slider = MSlider(QtCore.Qt.Horizontal)
         self.top_p_slider.setRange(0, 100)  # 0-1 with 100x multiplier for precision
         self.top_p_slider.setValue(95)  # Default to 0.95
-        self.top_p_slider.disable_show_text() 
-        
+        self.top_p_slider.disable_show_text()
+
         self.top_p_edit = MLineEdit().small()
         self.top_p_edit.setFixedWidth(50)
         top_p_validator = QDoubleValidator(0.0, 1.0, 2)
         self.top_p_edit.setValidator(top_p_validator)
         self.top_p_edit.setText("0.95")
-        
+
         top_p_controls.addWidget(self.top_p_slider)
         top_p_controls.addWidget(self.top_p_edit)
-        
+
         top_p_layout.addWidget(top_p_header)
         top_p_layout.addLayout(top_p_controls)
-        
-        # Max Tokens control - for advanced settings 
+
+        # Max Tokens control - for advanced settings
         max_tokens_layout = QtWidgets.QVBoxLayout()
         max_tokens_header = MLabel(self.tr("Max Tokens")).h4()
         max_tokens_controls = QtWidgets.QHBoxLayout()
-        
+
         # Add slider for max tokens
         self.max_tokens_slider = MSlider(QtCore.Qt.Horizontal)
         self.max_tokens_slider.setRange(1, 16384)  # Common range for most models
         self.max_tokens_slider.setValue(4096)  # Default to 4096
         self.max_tokens_slider.disable_show_text()
-        
+
         self.max_tokens_edit = MLineEdit().small()
         self.max_tokens_edit.setFixedWidth(70)
         max_tokens_validator = QIntValidator(1, 16384)
         self.max_tokens_edit.setValidator(max_tokens_validator)
         self.max_tokens_edit.setText("4096")
-        
+
         max_tokens_controls.addWidget(self.max_tokens_slider)
         max_tokens_controls.addWidget(self.max_tokens_edit)
-        
+
         max_tokens_layout.addWidget(max_tokens_header)
         max_tokens_layout.addLayout(max_tokens_controls)
-        
+
         # Add Top P and Max Tokens to the advanced settings layout
         advanced_layout.addLayout(top_p_layout)
         advanced_layout.addSpacing(10)
         advanced_layout.addLayout(max_tokens_layout)
-        
+
         # Create the collapsible section for advanced settings
         self.advanced_collapse = MCollapse()
         section_data = {
@@ -610,21 +677,21 @@ class SettingsPageUI(QtWidgets.QWidget):
             "expand": False,  # Initially collapsed
         }
         self.advanced_collapse.add_section(section_data)
-        
+
         # Add standard controls to right layout
         right_layout.addLayout(temp_layout)
         right_layout.addSpacing(10)
         right_layout.addWidget(self.advanced_collapse)
         right_layout.addStretch(1)
-        
+
         # Add left and right layouts to main layout
         main_layout.addLayout(left_layout, 3)  # Text edit takes 3/4 of the space
         main_layout.addLayout(right_layout, 1)  # Controls take 1/4 of the space
-        
+
         # Add the main layout and the checkbox to the llms layout
         llms_layout.addLayout(main_layout)
         llms_layout.addStretch(1)
-        
+
         # Connect signals for syncing sliders and edit fields
         self.temp_slider.valueChanged.connect(self._update_temp_edit)
         self.temp_edit.textChanged.connect(self._update_temp_slider)
@@ -632,14 +699,14 @@ class SettingsPageUI(QtWidgets.QWidget):
         self.top_p_edit.textChanged.connect(self._update_top_p_slider)
         self.max_tokens_slider.valueChanged.connect(self._update_max_tokens_edit)
         self.max_tokens_edit.textChanged.connect(self._update_max_tokens_slider)
-        
+
         return llms_layout
 
     def _update_temp_edit(self):
         # Update text edit when slider changes
         value = self.temp_slider.value() / 100.0
         self.temp_edit.setText(str(value))
-        
+
     def _update_temp_slider(self):
         # Update slider when text edit changes
         try:
@@ -654,7 +721,7 @@ class SettingsPageUI(QtWidgets.QWidget):
         # Update text edit when slider changes
         value = self.top_p_slider.value() / 100.0
         self.top_p_edit.setText(str(value))
-        
+
     def _update_top_p_slider(self):
         # Update slider when text edit changes
         try:
@@ -669,7 +736,7 @@ class SettingsPageUI(QtWidgets.QWidget):
         # Update text edit when slider changes
         value = self.max_tokens_slider.value()
         self.max_tokens_edit.setText(str(value))
-        
+
     def _update_max_tokens_slider(self):
         # Update slider when text edit changes
         try:
@@ -712,25 +779,29 @@ class SettingsPageUI(QtWidgets.QWidget):
         max_font_layout.addStretch()
 
         font_label = MLabel(self.tr("Font:")).h4()
-        
+
         # Create a horizontal layout for the font browser and its label
         font_browser_layout = QtWidgets.QHBoxLayout()
         import_font_label = MLabel(self.tr("Import Font:"))
         self.font_browser = MClickBrowserFileToolButton(multiple=True)
         self.font_browser.set_dayu_filters([".ttf", ".ttc", ".otf", ".woff", ".woff2"])
-        self.font_browser.setToolTip(self.tr("Import the Font to use for Rendering Text on Images"))
-        
+        self.font_browser.setToolTip(
+            self.tr("Import the Font to use for Rendering Text on Images")
+        )
+
         # Add the browser and label to the horizontal layout
         font_browser_layout.addWidget(import_font_label)
         font_browser_layout.addWidget(self.font_browser)
         font_browser_layout.addStretch()
 
         font_layout.addWidget(font_label)
-        font_layout.addLayout(font_browser_layout)  # Add the horizontal layout instead of just the browser
+        font_layout.addLayout(
+            font_browser_layout
+        )  # Add the horizontal layout instead of just the browser
         font_layout.addLayout(min_font_layout)
         font_layout.addLayout(max_font_layout)
 
-        # Uppercase checkbox 
+        # Uppercase checkbox
         self.uppercase_checkbox = MCheckBox(self.tr("Render Text in UpperCase"))
         text_rendering_layout.addWidget(self.uppercase_checkbox)
 
@@ -755,27 +826,34 @@ class SettingsPageUI(QtWidgets.QWidget):
         export_layout.addWidget(self.translated_text_checkbox)
         export_layout.addWidget(self.inpainted_image_checkbox)
 
-        self.from_file_types = ['pdf', 'epub', 'cbr', 'cbz', 'cb7', 'cbt', 'zip', 'rar']
-        available_file_types = ['pdf', 'cbz', 'cb7', 'zip']  # Exclude 'CBR' and add other types
+        self.from_file_types = ["pdf", "epub", "cbr", "cbz", "cb7", "cbt", "zip", "rar"]
+        available_file_types = [
+            "pdf",
+            "cbz",
+            "cb7",
+            "zip",
+        ]  # Exclude 'CBR' and add other types
 
         for file_type in self.from_file_types:
             save_layout = QtWidgets.QHBoxLayout()
-            save_label = MLabel(self.tr("Save {file_type} as:").format(file_type=file_type))
+            save_label = MLabel(
+                self.tr("Save {file_type} as:").format(file_type=file_type)
+            )
             save_combo = MComboBox().small()
-            save_combo.addItems(available_file_types)  
+            save_combo.addItems(available_file_types)
             self.set_combo_box_width(save_combo, available_file_types)
 
             # Set the default selection to the file type, or 'cbz' if file type is 'cbr'
-            if file_type in ['cbr', 'cbt']:
-                save_combo.setCurrentText('cbz')
-            elif file_type == 'rar':
-                save_combo.setCurrentText('zip')
-            elif file_type == 'epub':
-                save_combo.setCurrentText('pdf')
+            if file_type in ["cbr", "cbt"]:
+                save_combo.setCurrentText("cbz")
+            elif file_type == "rar":
+                save_combo.setCurrentText("zip")
+            elif file_type == "epub":
+                save_combo.setCurrentText("pdf")
             elif file_type in available_file_types:
                 save_combo.setCurrentText(file_type)
 
-            self.export_widgets[f'.{file_type.lower()}_save_as'] = save_combo
+            self.export_widgets[f".{file_type.lower()}_save_as"] = save_combo
 
             save_layout.addWidget(save_label)
             save_layout.addWidget(save_combo)
@@ -786,19 +864,23 @@ class SettingsPageUI(QtWidgets.QWidget):
         export_layout.addStretch(1)
 
         return export_layout
-    
+
     def update_hd_strategy_widgets(self, index: int):
         strategy = self.inpaint_strategy_combo.itemText(index)
         self.resize_widget.setVisible(strategy == self.tr("Resize"))
         self.crop_widget.setVisible(strategy == self.tr("Crop"))
-        
+
         # Adjust the layout to remove empty space when "Original" is selected
         if strategy == self.tr("Original"):
             self.hd_strategy_widgets.setFixedHeight(0)
         else:
-            self.hd_strategy_widgets.setFixedHeight(self.hd_strategy_widgets.sizeHint().height())
+            self.hd_strategy_widgets.setFixedHeight(
+                self.hd_strategy_widgets.sizeHint().height()
+            )
 
-    def set_combo_box_width(self, combo_box: MComboBox, items: List[str], padding: int = 40):
+    def set_combo_box_width(
+        self, combo_box: MComboBox, items: List[str], padding: int = 40
+    ):
         font_metrics = QFontMetrics(combo_box.font())
         max_width = max(font_metrics.horizontalAdvance(item) for item in items)
         combo_box.setFixedWidth(max_width + padding)
@@ -807,6 +889,3 @@ class SettingsPageUI(QtWidgets.QWidget):
         font_metrics = QFontMetrics(label.font())
         text_width = font_metrics.horizontalAdvance(label.text())
         label.setFixedWidth(text_width + padding)
-
-
-

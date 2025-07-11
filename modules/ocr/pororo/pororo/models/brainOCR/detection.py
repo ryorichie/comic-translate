@@ -7,6 +7,8 @@ from collections import OrderedDict
 import cv2
 import numpy as np
 import torch
+
+torch.cuda.empty_cache()
 import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 
@@ -37,7 +39,8 @@ def test_net(image: np.ndarray, net, opt2val: dict):
 
     # resize
     img_resized, target_ratio, size_heatmap = resize_aspect_ratio(
-        image, canvas_size, interpolation=cv2.INTER_LINEAR, mag_ratio=mag_ratio)
+        image, canvas_size, interpolation=cv2.INTER_LINEAR, mag_ratio=mag_ratio
+    )
     ratio_h = ratio_w = 1 / target_ratio
 
     # preprocessing
@@ -77,7 +80,8 @@ def get_detector(det_model_ckpt_fp: str, device: str = "cpu"):
     net = CRAFT()
 
     net.load_state_dict(
-        copy_state_dict(torch.load(det_model_ckpt_fp, map_location=device)))
+        copy_state_dict(torch.load(det_model_ckpt_fp, map_location=device))
+    )
     if device == "cuda":
         net = torch.nn.DataParallel(net).to(device)
         cudnn.benchmark = False

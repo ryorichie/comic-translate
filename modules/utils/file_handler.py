@@ -27,7 +27,7 @@ class FileHandler:
                 temp_dir = tempfile.mkdtemp(dir=archive_dir)
                 
                 extracted_files = extract_archive(path, temp_dir)
-                image_paths = [f for f in extracted_files if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp', '.bmp'))]
+                image_paths = [f for f in extracted_files if f.lower().endswith(('.jpg', '.jpeg', '.png', '.webp', '.bmp', '.avif'))]
                 image_paths = self.sanitize_and_copy_files(image_paths)
                 
                 all_image_paths.extend(image_paths)               

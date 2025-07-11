@@ -3,6 +3,8 @@ import os
 import cv2
 import torch
 
+torch.cuda.empty_cache()
+
 from ..utils.inpainting import (
     load_jit_model,
     download_model,

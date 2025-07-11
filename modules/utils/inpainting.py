@@ -10,13 +10,16 @@ import cv2
 from PIL import Image, ImageOps, PngImagePlugin
 import numpy as np
 import torch
-#from ..inpainting.const import MPS_SUPPORT_MODELS
+
+torch.cuda.empty_cache()
+# from ..inpainting.const import MPS_SUPPORT_MODELS
 from loguru import logger
 from torch.hub import download_url_to_file, get_dir
 import hashlib
 
 current_file_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.abspath(os.path.join(current_file_dir, '..', '..'))
+project_root = os.path.abspath(os.path.join(current_file_dir, "..", ".."))
+
 
 def md5sum(filename):
     md5 = hashlib.md5()

@@ -9,7 +9,7 @@ def natural_sort_key(s):
             for text in re.split(r'(\d+)', str(s))]
 
 def is_image_file(filename):
-    image_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.webp')
+    image_extensions = ('.jpg', '.jpeg', '.png', '.bmp', '.webp', '.avif')
     return filename.lower().endswith(image_extensions)
 
 def extract_archive(file_path: str, extract_to: str):

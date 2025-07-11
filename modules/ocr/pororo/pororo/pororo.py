@@ -11,6 +11,8 @@ from ..pororo.tasks.utils.base import PororoTaskBase
 
 import torch
 
+torch.cuda.empty_cache()
+
 from ..pororo.tasks import (
     PororoOcrFactory,
 )
@@ -58,10 +60,12 @@ class Pororo:
         **kwargs,
     ) -> PororoTaskBase:
         if task not in SUPPORTED_TASKS:
-            raise KeyError("Unknown task {}, available tasks are {}".format(
-                task,
-                list(SUPPORTED_TASKS.keys()),
-            ))
+            raise KeyError(
+                "Unknown task {}, available tasks are {}".format(
+                    task,
+                    list(SUPPORTED_TASKS.keys()),
+                )
+            )
 
         lang = lang.lower()
         lang = LANG_ALIASES[lang] if lang in LANG_ALIASES else lang
@@ -107,8 +111,10 @@ class Pororo:
         """
         if task not in SUPPORTED_TASKS:
             raise KeyError(
-                "Unknown task {} ! Please check available models via `available_tasks()`"
-                .format(task))
+                "Unknown task {} ! Please check available models via `available_tasks()`".format(
+                    task
+                )
+            )
 
         langs = SUPPORTED_TASKS[task].get_available_models()
         output = f"Available models for {task} are "

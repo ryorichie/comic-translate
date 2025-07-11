@@ -305,7 +305,7 @@ class ComicTranslateUI(QtWidgets.QMainWindow):
         # File Loader
         self.drag_browser = MDragFileButton(text=self.tr("Click or drag files here"), multiple=True)
         self.drag_browser.set_dayu_svg("attachment_line.svg")
-        self.drag_browser.set_dayu_filters([".png", ".jpg", ".jpeg", ".webp", ".bmp",
+        self.drag_browser.set_dayu_filters([".png", ".jpg", ".jpeg", ".webp", ".bmp", ".avif",
                                             ".zip", ".cbz", ".cbr", ".cb7", ".cbt",
                                             ".pdf", ".epub", ".ctpr"])
         self.drag_browser.setToolTip(self.tr("Import Images, PDFs, Epubs or Comic Book Archive Files(cbr, cbz, etc)"))

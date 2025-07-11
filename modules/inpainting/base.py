@@ -3,6 +3,8 @@ from typing import Optional
 
 import cv2
 import torch
+
+torch.cuda.empty_cache()
 import numpy as np
 from loguru import logger
 
@@ -32,13 +34,11 @@ class InpaintModel:
         self.init_model(device, **kwargs)
 
     @abc.abstractmethod
-    def init_model(self, device, **kwargs):
-        ...
+    def init_model(self, device, **kwargs): ...
 
     @staticmethod
     @abc.abstractmethod
-    def is_downloaded() -> bool:
-        ...
+    def is_downloaded() -> bool: ...
 
     @abc.abstractmethod
     def forward(self, image, mask, config: Config):

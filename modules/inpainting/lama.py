@@ -3,11 +3,13 @@ import cv2
 import numpy as np
 import torch
 
+torch.cuda.empty_cache()
+
 from ..utils.inpainting import (
     norm_img,
     get_cache_path_by_url,
     load_jit_model,
-    download_model
+    download_model,
 )
 from .base import InpaintModel
 from .schema import Config
@@ -26,8 +28,8 @@ LAMA_MODEL_URL = os.environ.get(
 LAMA_MODEL_MD5 = os.environ.get("LAMA_MODEL_MD5", "29f284f36a0a510bcacf39ecf4c4d54f")
 
 current_file_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.abspath(os.path.join(current_file_dir, '..', '..'))
-model_path = os.path.join(project_root, 'models/inpainting/lama_large_512px.ckpt')
+project_root = os.path.abspath(os.path.join(current_file_dir, "..", ".."))
+model_path = os.path.join(project_root, "models/inpainting/lama_large_512px.ckpt")
 
 
 class LaMa(InpaintModel):
@@ -64,4 +66,3 @@ class LaMa(InpaintModel):
         cur_res = np.clip(cur_res * 255, 0, 255).astype("uint8")
         cur_res = cv2.cvtColor(cur_res, cv2.COLOR_RGB2BGR)
         return cur_res
-    

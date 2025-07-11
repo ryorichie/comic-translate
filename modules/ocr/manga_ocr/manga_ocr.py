@@ -1,17 +1,29 @@
 # modified from https://github.com/kha-white/manga-ocr/blob/master/manga_ocr/ocr.py
 import re
 import jaconv
-from transformers import ViTImageProcessor, AutoTokenizer, VisionEncoderDecoderModel, GenerationMixin
+from transformers import (
+    ViTImageProcessor,
+    AutoTokenizer,
+    VisionEncoderDecoderModel,
+    GenerationMixin,
+)
 import numpy as np
 import torch
 
-MANGA_OCR_PATH = r'models/ocr/manga-ocr-base'
+torch.cuda.empty_cache()
+
+MANGA_OCR_PATH = r"models/ocr/manga-ocr-base"
+
+
 class MangaOcrModel(VisionEncoderDecoderModel, GenerationMixin):
     pass
 
+
 class MangaOcr:
-    def __init__(self, pretrained_model_name_or_path=MANGA_OCR_PATH, device='cpu'):
-        self.processor = ViTImageProcessor.from_pretrained(pretrained_model_name_or_path)
+    def __init__(self, pretrained_model_name_or_path=MANGA_OCR_PATH, device="cpu"):
+        self.processor = ViTImageProcessor.from_pretrained(
+            pretrained_model_name_or_path
+        )
         self.tokenizer = AutoTokenizer.from_pretrained(pretrained_model_name_or_path)
         self.model = MangaOcrModel.from_pretrained(pretrained_model_name_or_path)
         self.to(device)
@@ -27,12 +39,11 @@ class MangaOcr:
         x = post_process(x)
         return x
 
+
 def post_process(text):
-    text = ''.join(text.split())
-    text = text.replace('…', '...')
-    text = re.sub('[・.]{2,}', lambda x: (x.end() - x.start()) * '.', text)
+    text = "".join(text.split())
+    text = text.replace("…", "...")
+    text = re.sub("[・.]{2,}", lambda x: (x.end() - x.start()) * ".", text)
     text = jaconv.h2z(text, ascii=True, digit=True)
 
     return text
-
-

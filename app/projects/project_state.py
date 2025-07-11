@@ -6,6 +6,7 @@ import zipfile
 import shutil
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from .parsers import ProjectEncoder, ProjectDecoder, ensure_string_keys
+from app.controllers.image import ImageStateController
 
 def save_state_to_proj_file(comic_translate, file_name):
     """
@@ -136,6 +137,7 @@ def save_state_to_proj_file(comic_translate, file_name):
 
 def load_state_from_proj_file(comic_translate, file_name):
     decoder = ProjectDecoder()
+    image_loader = ImageStateController(comic_translate)
 
     if not hasattr(comic_translate, 'temp_dir'):
         comic_translate.temp_dir = tempfile.mkdtemp()
@@ -211,12 +213,10 @@ def load_state_from_proj_file(comic_translate, file_name):
             usage_type = usage[0]
             if usage_type == 'image_data':
                 file_path = usage[1]
-                img = cv2.imread(img_path)
-                img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                img = image_loader.load_image(img_path)
                 image_data[file_path] = img
             elif usage_type == 'in_memory_history':
-                img = cv2.imread(img_path)
-                img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                img = image_loader.load_image(img_path)
                 file_path, idx = usage[1], usage[2]
                 in_memory_history.setdefault(file_path, [])
                 history = in_memory_history[file_path]

@@ -1,5 +1,6 @@
 import os, json
 import cv2, shutil
+from PIL import Image
 import numpy as np
 import requests
 import logging
@@ -724,7 +725,17 @@ class ComicTranslatePipeline:
         )
         if not os.path.exists(path):
             os.makedirs(path, exist_ok=True)
-        cv2.imwrite(os.path.join(path, f"{base_name}_translated{extension}"), image)
+        # Convert from BGR to RGB for Pillow
+        image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        pil_img = Image.fromarray(image_rgb)
+
+        # Save the image using Pillow
+        try:
+            pil_img.save(os.path.join(path, f"{base_name}_translated{extension}"))
+        except Exception as e:
+            print(f"Error saving image with original extension: {e}")
+            # Fallback to saving as PNG
+            pil_img.save(os.path.join(path, f"{base_name}_translated.png"))
 
     def log_skipped_image(self, directory, timestamp, image_path, reason=""):
         skipped_file = os.path.join(
@@ -900,10 +911,13 @@ class ComicTranslatePipeline:
                 )
                 if not os.path.exists(path):
                     os.makedirs(path, exist_ok=True)
-                cv2.imwrite(
-                    os.path.join(path, f"{base_name}_cleaned{extension}"),
-                    inpaint_input_img,
-                )
+                pil_img = Image.fromarray(inpaint_input_img)
+                try:
+                    pil_img.save(os.path.join(path, f"{base_name}_cleaned{extension}"))
+                except Exception as e:
+                    print(f"Error saving cleaned image with original extension: {e}")
+                    # Fallback to saving as PNG
+                    pil_img.save(os.path.join(path, f"{base_name}_cleaned.png"))
 
             self.main_page.progress_update.emit(index, total_images, 5, 10, False)
             if (

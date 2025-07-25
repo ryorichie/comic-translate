@@ -10,7 +10,6 @@ import cv2
 import numpy as np
 import torch
 
-torch.cuda.empty_cache()
 from PIL import Image
 from torch import Tensor
 

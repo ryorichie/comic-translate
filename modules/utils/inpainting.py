@@ -11,7 +11,6 @@ from PIL import Image, ImageOps, PngImagePlugin
 import numpy as np
 import torch
 
-torch.cuda.empty_cache()
 # from ..inpainting.const import MPS_SUPPORT_MODELS
 from loguru import logger
 from torch.hub import download_url_to_file, get_dir

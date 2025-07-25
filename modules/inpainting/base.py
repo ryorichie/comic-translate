@@ -4,7 +4,6 @@ from typing import Optional
 import cv2
 import torch
 
-torch.cuda.empty_cache()
 import numpy as np
 from loguru import logger
 

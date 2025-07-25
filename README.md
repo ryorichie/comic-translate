@@ -109,7 +109,7 @@ Note: The 126 in cu126 represents the CUDA version - 12.6. Replace 126 with your
 ## Usage
 In the comic-translate directory, run
 ```bash
-uv run comic.py
+PYTORCH_HIP_ALLOC_CONF=expandable_segments:True uv run comic.py
 ```
 This will launch the GUI
 

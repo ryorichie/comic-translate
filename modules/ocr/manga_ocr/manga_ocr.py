@@ -10,7 +10,6 @@ from transformers import (
 import numpy as np
 import torch
 
-torch.cuda.empty_cache()
 
 MANGA_OCR_PATH = r"models/ocr/manga-ocr-base"
 

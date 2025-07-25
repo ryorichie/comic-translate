@@ -11,7 +11,6 @@ from ..pororo.tasks.utils.base import PororoTaskBase
 
 import torch
 
-torch.cuda.empty_cache()
 
 from ..pororo.tasks import (
     PororoOcrFactory,

@@ -8,7 +8,6 @@ import cv2
 import numpy as np
 import torch
 
-torch.cuda.empty_cache()
 import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 

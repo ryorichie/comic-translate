@@ -2,7 +2,6 @@ import os
 import cv2
 import torch
 
-torch.cuda.empty_cache()
 import numpy as np
 from PIL import Image
 from transformers import RTDetrV2ForObjectDetection, RTDetrImageProcessor

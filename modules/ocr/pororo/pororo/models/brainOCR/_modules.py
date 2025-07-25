@@ -3,7 +3,6 @@ from collections import namedtuple
 import numpy as np
 import torch
 
-torch.cuda.empty_cache()
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.nn.init as init

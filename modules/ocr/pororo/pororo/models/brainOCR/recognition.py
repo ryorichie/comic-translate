@@ -7,7 +7,6 @@ import math
 import numpy as np
 import torch
 
-torch.cuda.empty_cache()
 import torch.nn.functional as F
 import torch.utils.data
 import torchvision.transforms as transforms

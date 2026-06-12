@@ -99,6 +99,9 @@ def _resolve_onnx_device() -> str:
     if "ROCMExecutionProvider" in providers:
         return "rocm"
 
+    if "WebGpuExecutionProvider" in providers:
+        return "webgpu"
+
     if "OpenVINOExecutionProvider" in providers:
         return "openvino"
 
@@ -119,8 +122,11 @@ def tensors_to_device(data: Any, device: str) -> Any:
     torch_device = device
     if isinstance(device, str):
         low = device.lower()
-        if low in ("cpu", "cuda", "mps", "xpu"):
+        if low in ("cpu", "cuda", "mps", "xpu", "webgpu"):
             torch_device = low
+        elif low == "rocm":
+            # ROCm-enabled PyTorch typically uses the 'cuda' device string
+            torch_device = "cuda"
         else:
             # Unknown or ONNX-specific device -> fallback to cpu for torch tensors
             torch_device = "cpu"
@@ -169,6 +175,10 @@ def get_providers(device: Optional[str] = None) -> list[Any]:
     coreml_cache_dir = os.path.join(base_models_dir, 'onnx-gpu-cache', 'coreml')
     os.makedirs(coreml_cache_dir, exist_ok=True)
 
+    # ROCm cache
+    rocm_cache_dir = os.path.join(base_models_dir, 'onnx-gpu-cache', 'rocm')
+    os.makedirs(rocm_cache_dir, exist_ok=True)
+
     provider_options = {
         'OpenVINOExecutionProvider': {
             'device_type': 'GPU',
@@ -181,6 +191,9 @@ def get_providers(device: Optional[str] = None) -> list[Any]:
         },
         'CoreMLExecutionProvider': {
             'ModelCacheDirectory': coreml_cache_dir,
+        },
+        'ROCMExecutionProvider': {
+            'miopen_cache_path': rocm_cache_dir,
         }
     }
 

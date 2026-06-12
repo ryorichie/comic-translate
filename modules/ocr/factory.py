@@ -59,18 +59,7 @@ class OCRFactory:
         if cache_key in cls._engines:
             return cls._engines[cache_key]
 
-        # 2) For account holders using a remote  model
-        token = get_token("access_token")
-        if token and (
-            ocr_model in UserOCR.LLM_OCR_KEYS
-            or ocr_model in UserOCR.FULL_PAGE_OCR_KEYS
-        ):
-            engine = UserOCR()
-            engine.initialize(settings, source_lang_english, ocr_model)
-            cls._engines[cache_key] = engine
-            return engine
-
-        # 3) otherwise fall back to the local factories
+        # 2) otherwise fall back to the local factories
         engine = cls._create_new_engine(settings, source_lang_english, ocr_model, effective_backend)
         cls._engines[cache_key] = engine
         return engine

@@ -1,4 +1,4 @@
-﻿import os
+import os
 from PySide6 import QtWidgets
 from PySide6 import QtCore
 
@@ -58,7 +58,9 @@ class SettingsPageUI(QtWidgets.QWidget):
         self.ocr_engines = [
             self.tr("Default"), 
             self.tr('Microsoft OCR'), 
+            self.tr('Google Cloud Vision'),
             self.tr('Gemini-2.5-Flash-Lite'), 
+            self.tr('GPT-4.1-mini'),
         ]
         self.inpaint_strategy = [self.tr('Resize'), self.tr('Original'), self.tr('Crop')]
         self.themes = [self.tr('Dark'), self.tr('Light')]
@@ -66,15 +68,27 @@ class SettingsPageUI(QtWidgets.QWidget):
 
         self.credential_services = [
             self.tr("Custom"), 
+            self.tr("Deepseek"), 
+            self.tr("Open AI GPT"), 
+            self.tr("Microsoft Azure"), 
+            self.tr("Google Cloud"), 
+            self.tr("Google Gemini"), 
+            self.tr("DeepL"), 
+            self.tr("Anthropic Claude"), 
+            self.tr("Yandex"), 
         ]
         
         self.supported_translators = [
             self.tr("Gemini-3.1-Flash-Lite"),
+            self.tr("Gemini-2.5-Pro"),
             self.tr("GPT-4.1"),
             self.tr("GPT-4.1-mini"),
             self.tr("Claude-4.6-Sonnet"),
             self.tr("Claude-4.5-Haiku"),
             self.tr("Deepseek"),
+            self.tr("DeepL"),
+            self.tr("Yandex"),
+            self.tr("Microsoft Translator"),
             self.tr("Custom"),
         ]
         
@@ -249,7 +263,6 @@ class SettingsPageUI(QtWidgets.QWidget):
 
         # Add pages to stacked widget (order must match navbar order)
         self.stacked_widget.addWidget(self.personalization_page)
-        self.stacked_widget.addWidget(self.account_page)
         self.stacked_widget.addWidget(self.tools_page)
         self.stacked_widget.addWidget(self.llms_page)
         self.stacked_widget.addWidget(self.text_rendering_page)
@@ -304,7 +317,6 @@ class SettingsPageUI(QtWidgets.QWidget):
 
         for index, setting in enumerate([
             {"title": self.tr("Personalization"), "avatar": MPixmap(".svg")},
-            {"title": self.tr("Account"), "avatar": MPixmap(".svg")},
             {"title": self.tr("Tools"), "avatar": MPixmap(".svg")},
             {"title": self.tr("LLMs"), "avatar": MPixmap(".svg")},
             {"title": self.tr("Text Rendering"), "avatar": MPixmap(".svg")},
